@@ -15,8 +15,53 @@ const lexend = Lexend({
 })
 
 export const metadata: Metadata = {
-  title: 'Favurr. - Portfolio',
-  description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS. Showcasing projects, blog posts, and contact features for developers and creatives.'
+  title: 'Favurr. Portfolio | Full-Stack Developer & Projects',
+  description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS. Showcasing projects, blog posts, and contact features for developers and creatives.',
+  keywords: [
+    'Favurr',
+    'Portfolio',
+    'Next.js',
+    'MDX',
+    'Tailwind CSS',
+    'React',
+    'Full-Stack Developer',
+    'Web Development',
+    'Projects',
+    'Blog',
+    'JavaScript',
+    'Frontend',
+    'Backend',
+    'TypeScript',
+    'Dark Mode',
+    'Newsletter',
+    'SEO'
+  ],
+  authors: [{ name: 'Favurr', url: 'https://github.com/Favurr' }],
+  creator: 'Favurr',
+  openGraph: {
+    title: 'Favurr. Portfolio',
+    description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS. Showcasing projects, blog posts, and contact features for developers and creatives.',
+    url: 'https://your-portfolio-url.com',
+    siteName: 'Favurr. Portfolio',
+    images: [
+      {
+        url: '/images/authors/favurr.jpg',
+        width: 800,
+        height: 800,
+        alt: 'Favurr Profile Picture'
+      }
+    ],
+    locale: 'en_US',
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Favurr. Portfolio',
+    description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS.',
+    images: ['/images/authors/favurr.jpg'],
+    creator: '@yourtwitterhandle'
+  },
+  metadataBase: new URL('https://your-portfolio-url.com')
 }
 
 export default function RootLayout({
