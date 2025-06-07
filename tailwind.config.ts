@@ -2,7 +2,7 @@ const { fontFamily } = require('tailwindcss/defaultTheme')
 import type { Config } from 'tailwindcss'
 
 const config = {
-  darkMode: 'class',
+  darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -21,8 +21,7 @@ const config = {
     extend: {
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
-        serif: ['var(--font-serif)', ...fontFamily.serif],
-        lexend: ['var(--font-lexend)', ...fontFamily.lexend]
+        serif: ['var(--font-serif)', ...fontFamily.serif]
       },
       colors: {
         border: 'hsl(var(--border))',
