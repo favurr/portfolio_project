@@ -9,8 +9,8 @@ export default function Home() {
       <div className='container max-w-3xl'>
         <Intro />
 
-        <RecentPosts />
         <RecentProjects />
+        <RecentPosts />
 
         <NewsletterForm />
       </div>

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getProjects } from '@/lib/projects'
 import Projects from '@/components/projects'
+import { LayersIcon } from '@radix-ui/react-icons'
 
 export default async function RecentProjects() {
   const projects = await getProjects(2)
@@ -8,7 +9,11 @@ export default async function RecentProjects() {
   return (
     <section className='pb-24'>
       <div>
-        <h2 className='title mb-12'>Recent projects</h2>
+        <h2 className='title mb-12'>
+          <LayersIcon className='inline-block size-6 text-red-700' />
+          <span className='ml-4' />
+          Recent projects
+        </h2>
         <Projects projects={projects} />
 
         <Link

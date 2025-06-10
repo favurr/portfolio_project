@@ -7,14 +7,14 @@ export default function Header() {
       <nav className='container flex max-w-3xl items-center justify-between'>
         <div>
           <Link href='/' id='logo' className='font-serif text-2xl font-bold'>
-            Favurr 
-            <span className='text-red-700'>.</span>
+            Favurr
+            <span className='ml-[1px] text-red-700'>.</span>
           </Link>
         </div>
 
         <ul className='flex items-center gap-6 text-sm font-light text-muted-foreground sm:gap-10'>
           <li className='transition-colors hover:text-foreground'>
-            <Link href='/posts'>Posts</Link>
+            <Link href='/about'>About</Link>
           </li>
           <li className='transition-colors hover:text-foreground'>
             <Link href='/projects'>Projects</Link>

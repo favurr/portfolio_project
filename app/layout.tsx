@@ -15,7 +15,7 @@ const lexend = Lexend({
 })
 
 export const metadata: Metadata = {
-  title: 'Favurr. Portfolio | Full-Stack Developer & Projects',
+  title: "Favurr. | Full-Stack Developer's Portfolio",
   description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS. Showcasing projects, blog posts, and contact features for developers and creatives.',
   keywords: [
     'Favurr',
@@ -36,16 +36,16 @@ export const metadata: Metadata = {
     'Newsletter',
     'SEO'
   ],
-  authors: [{ name: 'Favurr', url: 'https://github.com/Favurr' }],
+  authors: [{ name: 'Favurr', url: 'https://github.com/favurr' }],
   creator: 'Favurr',
   openGraph: {
-    title: 'Favurr. Portfolio',
+    title: "Favurr. | Full-Stack Developer's Portfolio",
     description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS. Showcasing projects, blog posts, and contact features for developers and creatives.',
-    url: 'https://your-portfolio-url.com',
+    url: 'https://portfolio-five-tan-29.vercel.app/',
     siteName: 'Favurr. Portfolio',
     images: [
       {
-        url: '/images/authors/favurr.jpg',
+        url: 'https://portfolio-five-tan-29.vercel.app/images/authors/favurr.jpg',
         width: 800,
         height: 800,
         alt: 'Favurr Profile Picture'
@@ -58,10 +58,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Favurr. Portfolio',
     description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS.',
-    images: ['/images/authors/favurr.jpg'],
-    creator: '@yourtwitterhandle'
+    images: ['https://portfolio-five-tan-29.vercel.app/images/authors/favurr.jpg'],
+    creator: '@emekafavi2019'
   },
-  metadataBase: new URL('https://your-portfolio-url.com')
+  metadataBase: new URL('https://portfolio-five-tan-29.vercel.app/')
 }
 
 export default function RootLayout({

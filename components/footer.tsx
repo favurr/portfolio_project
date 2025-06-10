@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { JSX, SVGProps } from 'react'
 
 const navigation = [
@@ -81,7 +82,7 @@ export default function Footer() {
     <footer className='py-8'>
       <div className='container max-w-3xl'>
         <div className='md:flex md:items-center md:justify-between'>
-          <div className='flex justify-center space-x-6 md:order-2'>
+          {/* <div className='flex justify-center space-x-6 md:order-2'>
             {navigation.map(item => (
               <a
                 key={item.name}
@@ -94,11 +95,24 @@ export default function Footer() {
                 <item.icon aria-hidden='true' className='h-5 w-5' />
               </a>
             ))}
-          </div>
+          </div> */}
+          <nav className='flex max-w-3xl items-center justify-evenly'>
+            <ul className='flex items-center gap-6 text-sm font-light text-muted-foreground sm:gap-10'>
+              <li className='transition-colors hover:text-foreground'>
+                <Link href='/about'>About</Link>
+              </li>
+              <li className='transition-colors hover:text-foreground'>
+                <Link href='/projects'>Projects</Link>
+              </li>
+              <li className='transition-colors hover:text-foreground'>
+                <Link href='/contact'>Contact</Link>
+              </li>
+            </ul>
+          </nav>
+
           <div className='mt-8 md:order-1 md:mt-0'>
             <p className='text-center text-xs leading-5 text-muted-foreground'>
-              &copy; {new Date().getFullYear()} Favurr LTD. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} Favurr LTD. All rights reserved.
             </p>
           </div>
         </div>

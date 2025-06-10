@@ -134,7 +134,13 @@ export default function ContactForm() {
               )}
             </div>
           </div>
-          <div className='mt-6'>
+          <p className='mt-4 text-xs text-muted-foreground'>
+            By submitting this form, I agree to the{' '}
+            <Link href='/privacy' className='font-bold pb-16'>
+              privacy&nbsp;policy.
+            </Link>
+          </p>
+          <div className='mt-6  pb-4'>
             <Button
               type='submit'
               disabled={isSubmitting}
@@ -143,12 +149,6 @@ export default function ContactForm() {
               {isSubmitting ? 'Submitting...' : 'Contact Us'}
             </Button>
           </div>
-          <p className='mt-4 text-xs text-muted-foreground'>
-            By submitting this form, I agree to the{' '}
-            <Link href='/privacy' className='font-bold'>
-              privacy&nbsp;policy.
-            </Link>
-          </p>
         </form>
       </div>
     </section>

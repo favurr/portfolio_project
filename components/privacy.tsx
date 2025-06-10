@@ -3,9 +3,9 @@ import Link from 'next/link'
 export default function PrivacyPolicy() {
   return (
     <>
-      <h1 className='mb-6 text-4xl font-bold'>Privacy Policy</h1>
+      <h2 className='title'>Prvacy Policy</h2>
       <p>
-        At Favurr.'s Portfolio, your privacy is of utmost importance to us. This
+        in this Portfolio, your privacy is of utmost importance to us. This
         Privacy Policy explains how we collect, use, disclose, and safeguard
         your information when you visit our website. Please read this policy
         carefully. By using our site, you agree to the collection and use of
