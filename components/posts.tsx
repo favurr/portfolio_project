@@ -7,7 +7,7 @@ import { SquarePen, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { DeletePostDialog } from './deletePostDialog'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase'
 
 export default function Posts({ posts }: { posts: Post[] }) {
   const [items, setItems] = useState(posts)
