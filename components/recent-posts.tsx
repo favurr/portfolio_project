@@ -4,7 +4,8 @@ import Posts from '@/components/posts'
 import { SquarePen } from 'lucide-react'
 
 export default async function RecentPosts() {
-  const posts = await getPosts(4)
+  const allPosts = await getPosts()
+  const posts = allPosts.slice(0, 4)
 
   return (
     <section className='pb-24'>

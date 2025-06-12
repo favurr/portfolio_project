@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: 'Favurr. Portfolio',
     images: [
       {
-        url: 'https://portfolio-five-tan-29.vercel.app/images/authors/favurr.jpg',
+        url: 'https://portfolio-five-tan-29.vercel.app/images/favicon.png',
         width: 800,
         height: 800,
         alt: 'Favurr Profile Picture'
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Favurr. Portfolio',
     description: 'A modern, responsive portfolio website built with Next.js, MDX, and Tailwind CSS.',
-    images: ['https://portfolio-five-tan-29.vercel.app/images/authors/favurr.jpg'],
+    images: ['https://portfolio-five-tan-29.vercel.app/images/favicon.png'],
     creator: '@emekafavi2019'
   },
   metadataBase: new URL('https://portfolio-five-tan-29.vercel.app/')
