@@ -1,28 +1,30 @@
-import Link from 'next/link'
-import { getProjects } from '@/lib/projects'
-import Projects from '@/components/projects'
-import { LayersIcon } from '@radix-ui/react-icons'
+import Link from 'next/link';
+import { getProjects } from '@/lib/projects';
+import Projects from '@/components/projects';
+import { LayersIcon } from '@radix-ui/react-icons';
 
 export default async function RecentProjects() {
-  const projects = await getProjects(2)
+  const allProjects = await getProjects();
+  const projects = allProjects.slice(0, 2); // ✅ sliced here
 
   return (
-    <section className='pb-24'>
+    <section className="pb-24">
       <div>
-        <h2 className='title mb-12'>
-          <LayersIcon className='inline-block size-6 text-red-700' />
-          <span className='ml-4' />
+        <h2 className="title mb-12">
+          <LayersIcon className="inline-block size-6 text-red-700" />
+          <span className="ml-4" />
           Recent projects
         </h2>
+
         <Projects projects={projects} />
 
         <Link
-          href='/projects'
-          className='mt-8 inline-flex items-center gap-2 text-muted-foreground underline decoration-1 underline-offset-2 transition-colors hover:text-foreground'
+          href="/projects"
+          className="mt-8 inline-flex items-center gap-2 text-muted-foreground underline decoration-1 underline-offset-2 transition-colors hover:text-foreground"
         >
           <span>All projects</span>
         </Link>
       </div>
     </section>
-  )
+  );
 }

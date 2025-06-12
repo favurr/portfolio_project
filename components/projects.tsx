@@ -1,46 +1,65 @@
-import Image from 'next/image'
-import Link from 'next/link'
+'use client';
 
-import { ProjectMetadata } from '@/lib/projects'
-import { formatDate } from '@/lib/utils'
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import Link from 'next/link';
+import { SquarePen, Trash2 } from 'lucide-react';
+import { toast } from 'sonner';
+import type { Project } from '@/lib/projects';
 
-export default function Projects({
-  projects
-}: {
-  projects: ProjectMetadata[]
-}) {
+export default function Projects({ projects }: { projects: Project[] }) {
+  const pathname = usePathname();
+  const isAdminPage = pathname.startsWith('/admin/projects');
+
+  const [items, setItems] = useState(projects); // ✅ local state
+
+  async function handleDelete(id: string) {
+    const ok = confirm('Are you sure you want to delete this project?');
+    if (!ok) return;
+
+    const res = await fetch(`/api/mdx-projects?id=${id}`, {
+      method: 'DELETE',
+    });
+
+    if (res.ok) {
+      toast.success('Project deleted');
+      setItems((prev) => prev.filter((project) => project.id !== id)); // ✅ no reload
+    } else {
+      toast.error('Failed to delete project');
+    }
+  }
+
   return (
-    <ul className='grid grid-cols-1 gap-8 sm:grid-cols-2'>
-      {projects.map(project => (
-        <li key={project.slug} className='group relative'>
-          <Link href={`/projects/${project.slug}`}>
-            {project.image && (
-              <div className='h-72 w-full overflow-hidden bg-muted sm:h-60'>
-                <Image
-                  src={project.image}
-                  alt={project.title || ''}
-                  fill
-                  className='rounded-lg object-cover object-center transition-transform duration-500 group-hover:scale-105'
-                />
-              </div>
-            )}
-
-            <div className='absolute inset-[1px] rounded-lg bg-background/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100' />
-
-            <div className='absolute inset-x-0 bottom-0 translate-y-2 px-6 py-5 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100'>
-              <h2 className='title line-clamp-1 text-xl no-underline'>
-                {project.title}
-              </h2>
-              <p className='line-clamp-1 text-sm text-muted-foreground'>
+    <ul className="flex flex-col gap-8">
+      {items.map((project) => (
+        <li key={project.id}>
+          <div className="flex flex-col justify-between gap-x-4 gap-y-1 sm:flex-row">
+            <Link href={`/projects/${project.slug}`} className="max-w-lg">
+              <p className="text-lg font-semibold">{project.title}</p>
+              <p className="mt-1 line-clamp-2 text-sm font-light text-muted-foreground">
                 {project.summary}
               </p>
-              <p className='text-xs font-light text-muted-foreground'>
-                {formatDate(project.publishedAt ?? '')}
+            </Link>
+
+            <div className="flex flex-col items-end">
+              <p className="mt-1 text-sm font-light">
+                {new Date(project.created_at).toLocaleDateString()}
               </p>
+
+              {isAdminPage && (
+                <div className="mt-2 flex gap-3">
+                  <Link href={`/admin/projects/edit/${project.id}`}>
+                    <SquarePen size={20} className="text-muted-foreground hover:text-foreground" />
+                  </Link>
+                  <button onClick={() => handleDelete(project.id)}>
+                    <Trash2 size={20} className="text-red-600 hover:text-red-700" />
+                  </button>
+                </div>
+              )}
             </div>
-          </Link>
+          </div>
         </li>
       ))}
     </ul>
-  )
+  );
 }

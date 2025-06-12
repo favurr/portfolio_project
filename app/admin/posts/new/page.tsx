@@ -74,6 +74,7 @@ export default function NewPostPage() {
     } else {
       const json = await res.json()
       toast.error(json.error || 'Something went wrong')
+      return
     }
   }
 

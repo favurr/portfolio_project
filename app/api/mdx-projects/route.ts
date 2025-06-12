@@ -3,27 +3,27 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(req: NextRequest) {
   const { title, author, summary, image, content } = await req.json()
-  const slug = title.toLowerCase().replace(/\s+/g, '-')
+  const slug = title.toLowerCase().trim().replace(/\s+/g, '-')
 
   if (!title || !author || !summary || !image || !content) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
   }
 
-  // 🔍 Check for existing slug
+  // Check if a project with the same slug already exists
   const { data: existing } = await supabaseAdmin
-    .from('posts')
+    .from('projects')
     .select('id')
     .eq('slug', slug)
     .maybeSingle()
 
   if (existing) {
     return NextResponse.json(
-      { error: 'A post with this title already exists' },
+      { error: 'A project with this title already exists' },
       { status: 409 }
     )
   }
 
-  const { error } = await supabaseAdmin.from('posts').insert([
+  const { error } = await supabaseAdmin.from('projects').insert([
     {
       title,
       slug,
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
   const { data, error } = await supabaseAdmin
-    .from('posts')
+    .from('projects')
     .select('*')
     .order('created_at', { ascending: false })
 
@@ -55,10 +55,10 @@ export async function DELETE(req: NextRequest) {
   const id = searchParams.get('id');
 
   if (!id) {
-    return NextResponse.json({ error: 'Missing post ID' }, { status: 400 });
+    return NextResponse.json({ error: 'Missing project ID' }, { status: 400 });
   }
 
-  const { error } = await supabaseAdmin.from('posts').delete().eq('id', id);
+  const { error } = await supabaseAdmin.from('projects').delete().eq('id', id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
