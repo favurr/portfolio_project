@@ -17,7 +17,7 @@ export default function NotFound() {
             <div className='sm:ml-6'>
               <div className='sm:border-l sm:border-gray-200 sm:pl-6'>
                 <h1 className='text-3xl font-bold tracking-tight sm:text-5xl'>
-                  Wrong page<span className=' text-red-700 text-[1.75rem] ml-2  '>?</span>
+                  Wrong page<span className=' text-red-700 ml-2  '>?</span>
                 </h1>
                 <p className='mt-1 text-base text-muted-foreground'>
                   Let's help you find your way back.

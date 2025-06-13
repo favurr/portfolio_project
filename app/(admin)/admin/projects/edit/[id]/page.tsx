@@ -19,7 +19,10 @@ import {
   SelectItem
 } from '@/components/ui/select'
 
-const postSchema = z.object({
+import { supabase } from '@/lib/supabase'
+import MDXContent from '@/components/mdx-content'
+
+const formSchema = z.object({
   title: z.string().min(1),
   author: z.string().min(1),
   summary: z.string().min(1),
@@ -27,63 +30,97 @@ const postSchema = z.object({
   content: z.string().min(1)
 })
 
-type PostForm = z.infer<typeof postSchema>
+type FormValues = z.infer<typeof formSchema>
 type Author = { id: string; name: string }
 
-export default function NewPostPage() {
+export default function EditProjectPage({
+  params
+}: {
+  params: { id: string }
+}) {
   const router = useRouter()
   const [authors, setAuthors] = useState<Author[]>([])
+  const [livePreview, setLivePreview] = useState('')
+  const [loading, setLoading] = useState(true)
 
   const {
     register,
     handleSubmit,
     setValue,
     reset,
+    watch,
     formState: { errors, isSubmitting }
-  } = useForm<PostForm>({
-    resolver: zodResolver(postSchema)
+  } = useForm<FormValues>({
+    resolver: zodResolver(formSchema)
   })
 
-  // Fetch authors from DB
+  const content = watch('content')
+
   useEffect(() => {
-    const fetchAuthors = async () => {
-      const res = await fetch('/api/authors')
-      const json = await res.json()
-      if (res.ok) setAuthors(json.data)
+    const fetchProjectAndAuthors = async () => {
+      try {
+        const [projectRes, authorsRes] = await Promise.all([
+          supabase.from('projects').select('*').eq('id', params.id).single(),
+          supabase.from('authors').select('*')
+        ])
+
+        if (projectRes.error) throw new Error(projectRes.error.message)
+        if (authorsRes.error) throw new Error(authorsRes.error.message)
+
+        const project = projectRes.data
+        setAuthors(authorsRes.data)
+
+        reset({
+          title: project.title,
+          author: project.author,
+          summary: project.summary,
+          image: project.image,
+          content: project.content
+        })
+        setLivePreview(project.content)
+      } catch (err: any) {
+        toast.error(err.message || 'Failed to load data')
+        router.push('/admin/projects')
+      } finally {
+        setLoading(false)
+      }
     }
-    fetchAuthors()
-  }, [])
 
-  const onSubmit = async (data: PostForm) => {
-    const slug = data.title.toLowerCase().trim().replace(/\s+/g, '-') // ✅ create slug
-    const res = await fetch('/api/mdx-posts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, slug }) // ✅ attach slug
-    })
+    fetchProjectAndAuthors()
+  }, [params.id, reset, router])
 
-    if (res.status === 409) {
-      toast.error('A post with that title already exists.')
-      return
-    }
+  const onSubmit = async (data: FormValues) => {
+    const slug = data.title.toLowerCase().trim().replace(/\s+/g, '-')
 
-    if (res.ok) {
-      toast.success('Post created successfully!')
-      reset()
-      router.push('/admin/posts')
+    const { error } = await supabase
+      .from('projects')
+      .update({
+        title: data.title,
+        slug,
+        author: data.author,
+        summary: data.summary,
+        image: data.image,
+        content: data.content
+      })
+      .eq('id', params.id)
+
+    if (error) {
+      toast.error(error.message)
     } else {
-      const json = await res.json()
-      toast.error(json.error || 'Something went wrong')
-      return
+      toast.success('Project updated!')
+      router.push('/admin/projects')
     }
   }
 
+  if (loading)
+    return <p className='text-sm text-muted-foreground'>Loading...</p>
+
   return (
     <section className='pb-24 pt-40'>
-      <div className='container max-w-2xl'>
-        <h1 className='mb-6 text-xl font-bold'>Create New Post</h1>
-
+      <div className='container grid grid-cols-1 gap-8 lg:grid-cols-2'>
         <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+          <h1 className='text-xl font-bold'>Edit Project</h1>
+
           <div>
             <Label>Title</Label>
             <Input {...register('title')} />
@@ -96,7 +133,7 @@ export default function NewPostPage() {
             <Label>Author</Label>
             <Select
               onValueChange={value => setValue('author', value)}
-              defaultValue=''
+              defaultValue={watch('author')}
             >
               <SelectTrigger>
                 <SelectValue placeholder='Select author' />
@@ -118,7 +155,7 @@ export default function NewPostPage() {
 
           <div>
             <Label>Summary</Label>
-            <Textarea {...register('summary')} rows={3} />
+            <Textarea rows={3} {...register('summary')} />
             {errors.summary && (
               <p className='text-sm text-destructive'>
                 {errors.summary.message}
@@ -136,7 +173,13 @@ export default function NewPostPage() {
 
           <div>
             <Label>MDX Content</Label>
-            <Textarea rows={10} {...register('content')} />
+            <Textarea
+              rows={10}
+              {...register('content')}
+              onChange={e => {
+                setLivePreview(e.target.value)
+              }}
+            />
             {errors.content && (
               <p className='text-sm text-destructive'>
                 {errors.content.message}
@@ -145,9 +188,14 @@ export default function NewPostPage() {
           </div>
 
           <Button type='submit' disabled={isSubmitting}>
-            {isSubmitting ? 'Saving...' : 'Save Post'}
+            {isSubmitting ? 'Saving...' : 'Update Project'}
           </Button>
         </form>
+
+        <div className='prose mt-12 hidden max-w-none dark:prose-invert lg:block'>
+          <h2 className='mb-4 text-xl font-semibold'>Live Preview</h2>
+          <MDXContent source={livePreview} />
+        </div>
       </div>
     </section>
   )

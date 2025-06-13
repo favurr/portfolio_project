@@ -4,13 +4,14 @@ import { supabaseAdmin } from '@/lib/supabase';
 export type Post = {
   id: string;
   title: string;
+  author: string;
   summary: string;
   image: string;
-  author: string;
+  slug: string;
   content: string;
   created_at: string;
-  slug: string;
 };
+
 
 export async function getPosts(): Promise<Post[]> {
   const { data, error } = await supabaseAdmin
@@ -35,9 +36,10 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     .maybeSingle();
 
   if (error || !data) {
-    console.error('Error fetching post by slug:', error?.message || 'No data');
+    console.error('Error fetching post:', error?.message || 'No data');
     return null;
   }
 
   return data as Post;
 }
+

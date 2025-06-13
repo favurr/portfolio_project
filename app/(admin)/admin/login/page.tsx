@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -44,9 +45,13 @@ export default function AdminLoginPage() {
     })
 
     if (res.ok) {
-  window.location.href = '/admin/dashboard';
-}
-
+      toast.success('Admin Authenticated!');
+      router.push('/admin/projects');
+    } else {
+      const json = await res.json();
+      toast.error(json.error || 'Something went wrong');
+      return
+    }
   }
 
   return (

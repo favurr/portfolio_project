@@ -11,7 +11,6 @@ import NewsletterForm from '@/components/newsletter-form'
 export async function generateStaticParams() {
   const posts = await getPosts()
   const slugs = posts.map(post => ({ slug: post.slug }))
-
   return slugs
 }
 
@@ -23,8 +22,7 @@ export default async function Post({ params }: { params: { slug: string } }) {
     notFound()
   }
 
-  const { metadata, content } = post
-  const { title, image, author, publishedAt } = metadata
+  const { title, image, author, summary, content, created_at } = post
 
   return (
     <section className='pb-24 pt-32'>
@@ -51,8 +49,12 @@ export default async function Post({ params }: { params: { slug: string } }) {
         <header>
           <h1 className='title'>{title}</h1>
           <p className='mt-3 text-xs text-muted-foreground'>
-            {author} / {formatDate(publishedAt ?? '')}
+            {author} / {formatDate(created_at)}
           </p>
+
+          {summary && (
+            <p className='mt-4 text-base text-muted-foreground'>{summary}</p>
+          )}
         </header>
 
         <main className='prose mt-16 dark:prose-invert'>

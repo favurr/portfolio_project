@@ -32,6 +32,7 @@
     "react-hook-form": "^7.52.2",
     "resend": "^3.5.0",
     "sonner": "^1.5.0",
+    "sooner": "^1.1.4",
     "sugar-high": "^0.7.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
